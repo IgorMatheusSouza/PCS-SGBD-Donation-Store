@@ -1,0 +1,83 @@
+<main>
+  <div class="container begin-content">
+    <div class="grid second-nav">
+      <div class="column-xs-12">
+        <nav>
+          <ol class="breadcrumb-list">
+            <li class="breadcrumb-item">Doações </li>
+            <li class="breadcrumb-item">Detalhes</li>
+            <li class="breadcrumb-item">{{donation.title.split(' ').slice(0, 2).join(' ')}}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="grid product">
+      <div class="column-xs-12 column-md-7">
+        <div class="product-gallery">
+          <div class="product-image">
+            <img *ngIf="donation.images" class="active img-don" src="{{donation.images[mainImageIndex].fileUrl}}">
+          </div>
+          <ul class="image-list">
+            <div *ngFor="let image of donation.images; index as i">
+              <li class="image-item" (click)="selectMainImage(i)" *ngIf="mainImageIndex != i">
+                <img class="img-don" src="{{image.fileUrl}}"></li>
+            </div>
+          </ul>
+        </div>
+      </div>
+      <div class="column-xs-12 column-md-5">
+        <h1 class="title">{{donation.title}} </h1>
+        <h5>{{ donation.creationDate | date:'dd/MM/yyyy HH:mm' }}
+          <span class="card-text">
+            <span *ngIf="donation.status == 1" class="btn btn-info btn-icon-split float-right">Status: Ativo</span>
+            <span *ngIf="donation.status == 2" class="btn btn-success btn-icon-split float-right">Status: Em Progresso</span>
+            <span *ngIf="donation.status == 3" class="btn btn-primary btn-icon-split float-right">Status: Reservada</span>
+            <span *ngIf="donation.status == 4" class="btn btn-success btn-icon-split float-right">Status: Completa</span>
+            <span *ngIf="donation.status == 5" class="btn btn-danger btn-icon-split float-right">Status: Cancelada</span>
+          </span>
+      </h5>
+        <div class="description">
+          <p>{{donation.description}}</p>
+        </div>
+        <!-- <button class="btn btn-primary btn-user">
+          Resgatar doação
+        </button> -->
+        <div class="card-block border-left-primary">
+          <div>
+            <span class="mr-2  d-lg-inline text-gray-600 small">{{donation.user.name}}</span>
+            <img class="img-profile rounded-circle" src="assets/imgs/undraw_profile.svg">
+          </div>
+
+          <a href="tel:{{donation.user.phone}}" class="mr-2 d-lg-inline text-gray-600 small">
+            <i class="fa fa-phone" aria-hidden="true"></i>
+            {{ donation.showPhoneNumber ? donation.user.phone.substr(0, donation.user.phone.length - 4) + '****' : donation.user.phone}}
+          </a>
+          <span class="mr-2 d-lg-inline text-gray-600 small">
+            <i class="fa fa-envelope" aria-hidden="true"></i> {{ donation.user.email }}
+          </span>
+          <a href="tel:{{donation.user.phone}}" class="btn btn-primary btn-icon-split btn-sm">
+            <span class="icon text-white-50">
+              <i class="fa fa-paper-plane" aria-hidden="true"></i>
+            </span>
+          </a>
+        </div>
+        <br>
+        <br>
+        <div *ngIf="!isDonationOwner && donation.status == 1" class="btn btn-primary btn-icon-split btn-lg">
+          <span class="icon text-white-50">
+            <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+          </span>
+          <span class="text" (click)="acquireDonation()">Resgatar doação</span>
+        </div>
+        <div *ngIf="isDonationOwner" class="btn btn-primary btn-icon-split btn-lg">
+          <span class="icon text-white-50">
+            <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+          </span>
+          <span class="text" (click)="editDonation()">Editar doação</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<app-loader [activeLoader]="loader"></app-loader>

@@ -1,0 +1,117 @@
+<div class="container container-donations py-3">
+  <div class="begin-content">
+    <div class="col-md-8 main-box offset-md-2" id="style-7">
+      <!-- Card Start -->
+      <h2 class="blog-post-title">Aqui estão seus resgates de doações</h2>
+      <p>Doações em andamento</p>
+      <div *ngFor="let item of donations">
+        <div *ngIf="item.donationAcquisitions[0].status == DonationAcquisitionEnum.Active" class="card card-donation border-bottom-primary">
+          <div class="row" >
+            <div class="col-md-4">
+              <div id="CarouselTest" class="carousel slide box" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div *ngFor="let image of item.images; index as i" class="carousel-item {{ i == 0 ? 'active' : ''}} ">
+                    <img class="d-block img-donation" src="{{image.fileUrl}}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 px-3">
+              <div class="card-block">
+                <a [routerLink]="['/donation',item.id]">
+                  <h5 class="card-title font-16"><b>{{item.title}}</b></h5>
+                  <h6 class="card-text font-12">{{item.description.substr(0, 100) + '...'}}</h6>
+                  <div href="#" class="small font-12"> {{item.district}},{{item.city}} - {{item.state}}</div>
+                </a>
+                <span class="text btn btn-danger btn-sm font-12 float-right" (click)="cancelDonationAcquisition(item)">Cancelar resgate</span>
+              </div>
+            </div>
+            <div class="col-md-4 px-3">
+              <div class="card-block card-block-align border-left-primary">
+                <div>
+                  <span class="mr-2  d-lg-inline text-gray-600 small">{{item.user.name}}</span>
+                  <img class="img-profile rounded-circle" src="assets/imgs/undraw_profile.svg">
+                </div>
+
+                <a href="tel:{{item.user.phone}}" class="mr-2 d-lg-inline text-gray-600 small">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  {{item.user.phone ?? 'Não visivel'}}
+                </a>
+                <span class="mr-2 d-lg-inline text-gray-600 small">
+                  <i class="fa fa-envelope" aria-hidden="true"></i> {{item.user.email ?? 'Não visivel'}}
+                </span>
+                <a href="tel:{{item.user.phone}}" class="btn btn-primary btn-icon-split btn-sm">
+                  <span class="icon text-white-50">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                  </span>
+                </a>
+                <hr>
+                <h5 class="card-text"><span class="btn btn-info btn-icon-split">Status:{{item.status == DonationEnum.InProgress ? 'Em progresso' : 'Reservado'}} </span></h5>
+                <h6 class="card-text">
+                  Data aquisição: {{item.donationAcquisitions[0].creationDate | date:'dd/MM/yyyy HH:mm' }}
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <p>Doações anteriores</p>
+      <div *ngFor="let item of donations">
+        <div class="card card-donation border-bottom-primary" *ngIf="item.donationAcquisitions[0].status > DonationAcquisitionEnum.Active">
+          <div class="row">
+            <div class="col-md-4">
+              <div id="CarouselTest" class="carousel slide box" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div *ngFor="let image of item.images; index as i" class="carousel-item {{ i == 0 ? 'active' : ''}} ">
+                    <img class="d-block img-donation" src="{{image.fileUrl}}" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 px-3">
+              <div class="card-block ">
+                <a [routerLink]="['/donation',item.id]">
+                  <h5 class="card-title font-16"><b>{{item.title}}</b></h5>
+                  <h6 class="card-text font-12">{{item.description}}</h6>
+                  <div href="#" class="small font-12"> {{item.district}},{{item.city}} - {{item.state}}</div>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-4 px-3">
+              <div class="card-block card-block-align border-left-primary">
+                <div>
+                  <span class="mr-2  d-lg-inline text-gray-600 small">{{item.user.name}}</span>
+                  <img class="img-profile rounded-circle" src="assets/imgs/undraw_profile.svg">
+                </div>
+
+                <a href="tel:{{item.user.phone}}" class="mr-2  d-lg-inline text-gray-600 small">
+                  <i class="fa fa-phone" aria-hidden="true"></i>
+                  {{item.user.phone ?? 'Não visivel'}}
+                </a>
+                <span class="mr-2  d-lg-inline text-gray-600 small">
+                  <i class="fa fa-envelope" aria-hidden="true"></i> {{item.user.email ?? 'Não visivel'}}
+                </span>
+
+                <hr>
+                <h5 class="card-text">
+                  <span class="btn btn-success btn-icon-split">
+                    Status: {{item.donationAcquisitions[0].status == DonationAcquisitionEnum.Completed  ? 'Finalizada' : 'Cancelada'}}
+                  </span>
+                </h5>
+                    <h6 class="card-text">
+                      Data aquisição: {{item.donationAcquisitions[0].creationDate | date:'dd/MM/yyyy HH:mm' }}
+                    </h6>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div *ngIf="donations.length == 0">
+        <h6 class="text-nodonation">Nenhuma doação</h6>
+      </div>
+    </div>
+  </div>
